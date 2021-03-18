@@ -1,0 +1,38 @@
+﻿
+<div class="row">
+    <div class="col-md-4">
+      
+        Date:<input type="date" id="txtDate" />
+        <button onclick="getClaims()">Get Claims</button>
+        
+    </div>
+    
+    
+</div>
+    <div class="row">
+        <div class="col-md-8">
+            <div id="grdClaims"></div>
+
+        </div>
+    </div>
+        <script>
+
+            function getClaims() {
+                var shtml = "<table><th>MemberID</th><th>EnrollmentDate</th><th>LastName</th><th>FirstName</TH></tr>";
+                
+                $.get("../Home/GetClaims?ClaimDate=" + $('#txtDate').val() + "", function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        shtml += "<TR><TD>" + data[i].MemberID + "</td><td>" + data[i].FormatDate + "</td><td>" + data[i].LastName + "</td><td>" + data[i].FirstName + "</td></tr>";
+                        for (j = 0; j < data[i].lstClaims.length; j++) {
+                            shtml += "<tr><td></td><td></td><td>Claim Date: " + data[i].lstClaims[j].FormatDate + "</td><td> Claim Amount: " + data[i].lstClaims[j].ClaimAmount + "<td></tr>";
+                        }
+
+                    }
+
+                    $("#grdClaims").append(shtml);
+                });
+
+            }
+
+        </script>
+
